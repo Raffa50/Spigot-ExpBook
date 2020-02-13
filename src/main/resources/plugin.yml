@@ -1,0 +1,16 @@
+main: aldrigos.mc.expbook.ExpBookPlugin
+name: ExpBook
+version: '0.2.0.0'
+description: Save exp into a book
+load: POSTWORLD
+author: Aldrigo Raffaele
+website: spigotmc.org
+prefix: ExpBook
+api-version: 1.14
+
+permissions:
+  expbook.*:
+    default: true
+    children:
+      expbook.save: true
+      expbook.use: true
