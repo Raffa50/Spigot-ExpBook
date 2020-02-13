@@ -16,11 +16,11 @@ public class UsageListener implements Listener {
             return;
         }
 
-        int storedLvl = ExpBookItem.getSavedExp(player.getItemInHand());
-        if (storedLvl > 0) {
+        int storedExp = ExpBook.getSavedExp(player.getItemInHand());
+        if (storedExp > 0) {
             player.getInventory().remove(player.getItemInHand());
-            player.setLevel(player.getLevel() + storedLvl);
-            player.sendMessage(ChatColor.GOLD + "[ExpBook]You gained " + storedLvl + " level(s)!" + ChatColor.RESET);
+            player.giveExp(storedExp);
+            player.sendMessage(ChatColor.GOLD + "[ExpBook]You gained " + storedExp + " exp!" + ChatColor.RESET);
         }
     }
 }

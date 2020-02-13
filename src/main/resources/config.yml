@@ -1,2 +1,4 @@
 requireBook: true
 maxExp4Book: 0
+playerDropsExp: true
+playerDropExpRate: 0.1

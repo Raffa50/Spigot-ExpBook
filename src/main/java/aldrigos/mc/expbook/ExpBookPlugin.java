@@ -5,7 +5,6 @@ import aldrigos.mc.expbook.listeners.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ExpBookPlugin extends JavaPlugin {
-    static final String dir = "plugins/expbook/";
     static ExpBookPlugin instance;
 
     private Config conf;
@@ -20,7 +19,12 @@ public class ExpBookPlugin extends JavaPlugin {
         conf = new Config(getConfig());
 
         new SaveXpCommand(conf).register();
-        getServer().getPluginManager().registerEvents(new UsageListener(), this);
+        new ExpInfoCommand().register();
+
+        var pm = getServer().getPluginManager();
+        pm.registerEvents(new UsageListener(), this);
+        if(conf.playerDropsExp)
+            pm.registerEvents(new PlayerDeathListener(conf), this);
     }
 
     @Override

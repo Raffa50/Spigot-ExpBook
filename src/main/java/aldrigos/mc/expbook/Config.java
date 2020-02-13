@@ -6,13 +6,15 @@ public class Config {
     private final FileConfiguration fc;
     public final boolean requireBook;
     public final int maxExp4Book;
+    public final boolean playerDropsExp;
+    public final float playerDropExpRate;
 
     public Config(FileConfiguration fc){
         this.fc = fc;
-        //fc.addDefault("requireBook", false);
-        //fc.addDefault("maxExp4Book", 0);
 
         requireBook = fc.getBoolean("requireBook");
         maxExp4Book = fc.getInt("maxExp4Book");
+        playerDropsExp = fc.getBoolean("playerDropsExp");
+        playerDropExpRate = (float)fc.getDouble("playerDropExpRate");
     }
 }

@@ -14,7 +14,7 @@ public class SaveXpCommand extends CommandBase {
     public SaveXpCommand(Config conf){
         super("savexp",
                 "Save experience into a book",
-                "/savexp [L] L = level to save. example: /savexp 2",
+                "/savexp <L> .L = exp to save. example: /savexp 1000",
                 "expbook.save");
 
         this.conf = conf;
@@ -33,25 +33,28 @@ public class SaveXpCommand extends CommandBase {
 //        }
 
         var player = (Player) sender;
-        int saveLevel = 1;
+        int saveExp = 1;
 
-        if(args.length > 0)
-            try {
-                saveLevel = Integer.parseInt(args[0]);
-            } catch (NumberFormatException ex){}
+        if(args.length < 1){
+            player.sendMessage(ChatColor.RED+"[ExpBook]saveExp must be >0"+ChatColor.RESET);
+            return false;
+        }
+        try {
+            saveExp = Integer.parseInt(args[0]);
+        } catch (NumberFormatException ex){}
 
-        if(saveLevel <= 0){
-            sender.sendMessage(ChatColor.RED+"[ExpBook]saveLevel must be >0"+ChatColor.RESET);
+        if(saveExp <= 0){
+            sender.sendMessage(ChatColor.RED+"[ExpBook]saveExp must be >0"+ChatColor.RESET);
             return false;
         }
 
-        if(conf.maxExp4Book > 0 && saveLevel > conf.maxExp4Book){
-            sender.sendMessage(ChatColor.RED+"[ExpBook]saveLevel must be <="+conf.maxExp4Book+ChatColor.RESET);
+        if(conf.maxExp4Book > 0 && saveExp > conf.maxExp4Book){
+            sender.sendMessage(ChatColor.RED+"[ExpBook]saveExp must be <="+conf.maxExp4Book+ChatColor.RESET);
             return false;
         }
 
-        if(player.getGameMode() != GameMode.CREATIVE && player.getLevel() < saveLevel){
-            player.sendMessage(ChatColor.RED+"[ExpBook]your level is not sufficient"+ChatColor.RESET);
+        if(player.getGameMode() != GameMode.CREATIVE && ExpBook.getTotalExperience(player) < saveExp){
+            player.sendMessage(ChatColor.RED+"[ExpBook]your exp is not sufficient"+ChatColor.RESET);
             return false;
         }
 
@@ -65,11 +68,11 @@ public class SaveXpCommand extends CommandBase {
                 player.getInventory().remove(new ItemStack(Material.BOOK, 1));
             }
 
-            player.setLevel(player.getLevel() - saveLevel);
+            player.giveExp(-saveExp);
         }
 
-        player.getInventory().addItem(new ExpBookItem(saveLevel));
+        player.getInventory().addItem(ExpBook.create(saveExp));
 
-        return false;
+        return true;
     }
 }
