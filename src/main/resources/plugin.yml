@@ -1,6 +1,6 @@
 main: aldrigos.mc.expbook.ExpBookPlugin
 name: ExpBook
-version: '0.2.0.0'
+version: '1.0.0.0'
 description: Save exp into a book
 load: POSTWORLD
 author: Aldrigo Raffaele
